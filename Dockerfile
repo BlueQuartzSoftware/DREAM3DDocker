@@ -5,6 +5,7 @@ RUN apt-get update && \
   apt-get install -y --no-install-recommends \
   bison \
   build-essential \
+  ca-certificates \
   doxygen \
   flex \
   freeglut3-dev \
@@ -14,6 +15,7 @@ RUN apt-get update && \
   libasound2-dev \
   libboost-dev \
   libbz2-dev \
+  libcurl4-openssl-dev \
   libcap-dev \
   libcups2-dev \
   libdrm-dev \
@@ -30,6 +32,7 @@ RUN apt-get update && \
   libjpeg-dev \
   libjsoncpp-dev \
   libmng-dev \
+  libncurses5-dev \
   libnss3-dev \
   libpci-dev \
   libopusfile-dev \
@@ -59,3 +62,18 @@ RUN apt-get update && \
 
 WORKDIR /usr/src
 RUN mkdir /usr/src/DREAM3D_SDK
+
+RUN git clone git://cmake.org/cmake.git CMake && \
+  cd CMake && \
+  git checkout v3.5.0 && \
+  cd .. && mkdir CMake-build && cd CMake-build && \
+  /usr/src/CMake/bootstrap \
+    --parallel=$(nproc) \
+    --prefix=/usr && \
+  make -j$(nproc) && \
+  ./bin/cmake -DCMAKE_USE_SYSTEM_CURL:BOOL=ON \
+    -DCMAKE_BUILD_TYPE:STRING=Release \
+    -DCMAKE_USE_OPENSSL:BOOL=ON . && \
+  make install && \
+  cd .. && \
+  rm -rf CMake*
