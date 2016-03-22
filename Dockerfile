@@ -1,4 +1,4 @@
-FROM ubuntu:14.04
+FROM thewtex/opengl:latest
 MAINTAINER DREAM3D Community
 
 RUN apt-get update && \
@@ -45,7 +45,7 @@ RUN apt-get update && \
   libsrtp0-dev \
   libssl-dev \
   libtbb-dev \
-  libtiff4-dev \
+  libtiff5-dev \
   libudev-dev \
   libx11-dev \
   libxcomposite-dev \
