@@ -94,3 +94,15 @@ RUN wget http://download.qt.io/official_releases/qt/5.6/5.6.0/single/qt-everywhe
   make install && \
   cd .. && rm -rf qt-everywhere-opensource*
 
+RUN wget --content-disposition https://sourceforge.net/projects/qwt/files/qwt/6.1.2/qwt-6.1.2.tar.bz2/download && \
+  tar -xjf qwt-6.1.2.tar.bz2 && \
+  rm qwt-6.1.2.tar.bz2 && \
+  cd qwt-6.1.2 && \
+  sed -i 's%/usr/local/qwt-$$QWT_VERSION%/usr/src/DREAM3D_SDK/prefix-Release%' qwtconfig.pri && \
+  /usr/src/DREAM3D_SDK/prefix-Release/bin/qmake qwt.pro && \
+  make -j$(nproc) && \
+  make install && \
+  cd .. && rm -rf qwt*
+
+
+
