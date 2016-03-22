@@ -111,6 +111,7 @@ RUN wget https://www.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8.15-patch1/src/hdf5-
   cd hdf5-Release-build && \
   cmake \
     -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_CXX_FLAGS=-std=c++11 \
     -DBUILD_SHARED_LIBS=ON \
     -DCMAKE_INSTALL_PREFIX=/usr/src/DREAM3D_SDK/prefix-Release/ \
     -G Ninja \
@@ -119,5 +120,23 @@ RUN wget https://www.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8.15-patch1/src/hdf5-
   ninja install && \
   cd .. && rm -rf hdf5*
 
+RUN wget --content-disposition https://sourceforge.net/projects/itk/files/itk/4.9/InsightToolkit-4.9.0.tar.xz/download && \
+  tar -xJf InsightToolkit-4.9.0.tar.xz && \
+  mkdir InsightToolkit-build && \
+  cd InsightToolkit-build && \
+  cmake \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_CXX_FLAGS=-std=c++11 \
+    -DBUILD_SHARED_LIBS=ON \
+    -DModule_ITKReview=ON \
+    -DBUILD_TESTING=OFF \
+    -DBUILD_EXAMPLES=OFF \
+    -DHDF5_DIR=/usr/src/DREAM3D_SDK/prefix-Release/share/cmake \
+    -DCMAKE_INSTALL_PREFIX=/usr/src/DREAM3D_SDK/prefix-Release/ \
+    -G Ninja \
+    ../InsightToolkit-4.9.0/ && \
+  ninja && \
+  ninja install && \
+  cd .. && rm -rf InsightToolkit*
 
 
