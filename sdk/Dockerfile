@@ -146,3 +146,4 @@ RUN git clone https://github.com/dream3d/DREAM3D_Data.git && \
   git checkout ${DREAM3D_Data_VERSION}
 
 ADD DREAM3D_SDK.cmake /usr/src/DREAM3D_SDK/
+VOLUME /usr/src/DREAM3D_SDK
