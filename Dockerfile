@@ -6,6 +6,7 @@ RUN apt-get update && \
   bison \
   build-essential \
   ca-certificates \
+  curl \
   doxygen \
   flex \
   freeglut3-dev \
@@ -58,10 +59,11 @@ RUN apt-get update && \
   libxtst-dev \
   ninja-build \
   python-dev \
-  ruby
+  ruby \
+  wget
 
 WORKDIR /usr/src
-RUN mkdir /usr/src/DREAM3D_SDK
+RUN mkdir -p /usr/src/DREAM3D_SDK/prefix-Release
 
 RUN git clone git://cmake.org/cmake.git CMake && \
   cd CMake && \
@@ -77,3 +79,18 @@ RUN git clone git://cmake.org/cmake.git CMake && \
   make install && \
   cd .. && \
   rm -rf CMake*
+
+RUN wget http://download.qt.io/official_releases/qt/5.6/5.6.0/single/qt-everywhere-opensource-src-5.6.0.tar.gz && \
+  tar -xzf qt-everywhere-opensource-src-5.6.0.tar.gz && \
+  rm qt-everywhere-opensource-src-5.6.0.tar.gz && \
+  cd qt-everywhere-opensource-src-5.6.0 && \
+  ./configure \
+    -opensource -confirm-license \
+    -prefix /usr/src/DREAM3D_SDK/prefix-Release \
+    -no-compile-examples \
+    -icu -openssl -qt-xcb -opengl -gui -widgets \
+    -release && \
+  make -j$(nproc) && \
+  make install && \
+  cd .. && rm -rf qt-everywhere-opensource*
+
