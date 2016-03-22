@@ -139,4 +139,8 @@ RUN wget --content-disposition https://sourceforge.net/projects/itk/files/itk/4.
   ninja install && \
   cd .. && rm -rf InsightToolkit*
 
-
+ENV DREAM3D_Data_VERSION 16924a99dd928ecc04b4d56de4da81292c0d2aaf
+RUN git clone https://github.com/dream3d/DREAM3D_Data.git && \
+  mv DREAM3D_Data DREAM3D_SDK/ && \
+  cd DREAM3D_SDK/DREAM3D_Data/ && \
+  git checkout ${DREAM3D_Data_VERSION}
