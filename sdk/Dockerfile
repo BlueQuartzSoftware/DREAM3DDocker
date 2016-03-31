@@ -61,6 +61,7 @@ RUN apt-get update && \
   ninja-build \
   python-dev \
   ruby \
+  vim \
   wget
 
 WORKDIR /usr/src
