@@ -23,6 +23,7 @@ RUN apt-get update && \
   libegl1-mesa-dev \
   libeigen3-dev \
   libevent-dev \
+  libfftw3-dev \
   libflac-dev \
   libflac++-dev \
   libfontconfig1-dev \
