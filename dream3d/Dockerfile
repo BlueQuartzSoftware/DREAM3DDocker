@@ -12,6 +12,8 @@ RUN git clone https://github.com/thewtex/CMP.git && \
   cd CMP && \
   git checkout ${CMP_VERSION}
 
+ENV CXXFLAGS="-std=c++11"
+
 RUN mkdir DREAM3D-build-Release && \
   cd DREAM3D-build-Release && \
   cmake -C /usr/src/DREAM3D_SDK/DREAM3D_SDK.cmake \

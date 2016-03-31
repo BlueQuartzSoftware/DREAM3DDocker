@@ -30,7 +30,6 @@ RUN apt-get update && \
   libgcrypt11-dev \
   libglu1-mesa-dev \
   libicu-dev \
-  libinsighttoolkit4-dev \
   libjasper-dev \
   libjpeg-dev \
   libjsoncpp-dev \
