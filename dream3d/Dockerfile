@@ -1,6 +1,9 @@
 FROM dream3d/sdk:latest
 MAINTAINER DREAM3D Community
 
+RUN mkdir /usr/src/DREAM3D
+WORKDIR /usr/src/DREAM3D
+
 ENV DREAM3D_VERSION 81ab13acb74e2cf2bef1c7ddc7527668f985933a
 RUN git clone https://github.com/dream3d/DREAM3D.git && \
   cd DREAM3D && \
@@ -12,6 +15,8 @@ RUN git clone https://github.com/thewtex/CMP.git && \
   cd CMP && \
   git checkout ${CMP_VERSION}
 
+# Todo: add SIMPL and SIMPLView checkouts
+
 ENV CXXFLAGS="-std=c++11"
 
 RUN mkdir DREAM3D-build-Release && \
@@ -21,3 +26,5 @@ RUN mkdir DREAM3D-build-Release && \
     -DCMAKE_BUILD_TYPE=Release \
     ../DREAM3D && \
   ninja
+
+VOLUME /usr/src/DREAM3D
