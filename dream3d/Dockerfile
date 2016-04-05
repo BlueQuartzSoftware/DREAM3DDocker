@@ -15,7 +15,15 @@ RUN git clone https://github.com/thewtex/CMP.git && \
   cd CMP && \
   git checkout ${CMP_VERSION}
 
-# Todo: add SIMPL and SIMPLView checkouts
+ENV SIMPL_VERSION 94678388260b1b3bdc3bc14ae14e4c0254bcc8e8
+RUN git clone https://github.com/BlueQuartzSoftware/SIMPL.git && \
+  cd SIMPL && \
+  git checkout ${SIMPL_VERSION}
+
+ENV SIMPLView_VERSION 18df48075de921934dedac36869d37af5ee3d81d
+RUN git clone https://github.com/BlueQuartzSoftware/SIMPLView.git && \
+  cd SIMPLView && \
+  git checkout ${SIMPLView_VERSION}
 
 ENV CXXFLAGS="-std=c++11"
 

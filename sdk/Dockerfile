@@ -12,6 +12,7 @@ RUN apt-get update && \
   freeglut3-dev \
   git \
   gperf \
+  graphviz \
   gyp \
   libasound2-dev \
   libboost-dev \
