@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 container=dream3d
 image=dream3d/dream3d
