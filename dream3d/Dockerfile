@@ -36,3 +36,6 @@ RUN mkdir DREAM3D-build-Release && \
   ninja
 
 VOLUME /usr/src/DREAM3D
+
+# The app to run in the x11vnc server
+ENV APP /usr/src/DREAM3D/DREAM3D-build-Release/Bin/DREAM3D
