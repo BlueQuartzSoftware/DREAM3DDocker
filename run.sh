@@ -25,11 +25,14 @@ Options:
 
   -h             Display this help and exit.
   -c             Container name to use (default ${container}).
+  -d             Delete container is already exist at starting time, and upon exit
+  -e             Starts bash in container if container is already running
   -i             Image name (default ${image}).
   -p             Port to expose HTTP server (default ${port}). If an empty
                  string, the port is not exposed.
   -r             Extra arguments to pass to 'docker run'. E.g.
                  --env="APP=glxgears"
+  -s             Starts a docker container based on its ID
   -q             Do not output informational messages.
 EOF
 }
@@ -42,6 +45,14 @@ while [ $# -gt 0 ]; do
 			;;
 		-c)
 			container=$2
+			shift
+			;;
+		-d)
+			delete=1
+			shift
+			;;
+		-e)
+			execute=1
 			shift
 			;;
 		-i)
@@ -58,6 +69,10 @@ while [ $# -gt 0 ]; do
 			;;
 		-q)
 			quiet=1
+			;;
+		-s)
+			start=$2
+			shift
 			;;
 		*)
 			show_help >&2
@@ -92,9 +107,15 @@ url="http://${ip}:$port"
 
 cleanup() {
 	docker stop $container >/dev/null
-	docker rm $container >/dev/null
+	if [ -n "$delete" ]; then
+		docker rm $container >/dev/null
+	fi
 }
 
+if [ -n "$execute" ]; then
+	docker exec -it ${container} /bin/bash
+	exit 0
+fi
 running=$(docker ps -a -q --filter "name=${container}")
 if [ -n "$running" ]; then
 	if [ -z "$quiet" ]; then
@@ -124,13 +145,25 @@ if [ -n "$port" ]; then
 	port_arg="-p $port:6080"
 fi
 
-docker run \
-  -d \
-  --name $container \
-  ${mount_local} \
-  $port_arg \
-  $extra_run_args \
-  $image >/dev/null
+running=$(docker ps -a -q --filter "name=${container}")
+if [ -n "$running" ] && [ -z "$delete" ]; then
+	if [ -z "${start}" ]; then
+		array=($running)
+		start=${array[0]}
+	fi
+	if [ -z "$quiet" ]; then
+		echo "Starting container $start"
+	fi
+	docker start $start >/dev/null
+else
+	docker run \
+	  -d \
+	  --name $container \
+	  ${mount_local} \
+	  $port_arg \
+	  $extra_run_args \
+	  $image >/dev/null
+fi
 
 print_app_output() {
 	docker cp $container:/var/log/supervisor/graphical-app-launcher.log - \
