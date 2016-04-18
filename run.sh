@@ -32,7 +32,6 @@ Options:
                  string, the port is not exposed.
   -r             Extra arguments to pass to 'docker run'. E.g.
                  --env="APP=glxgears"
-  -s             Starts a docker container based on its ID
   -q             Do not output informational messages.
 EOF
 }
@@ -69,10 +68,6 @@ while [ $# -gt 0 ]; do
 			;;
 		-q)
 			quiet=1
-			;;
-		-s)
-			start=$2
-			shift
 			;;
 		*)
 			show_help >&2
@@ -116,13 +111,22 @@ if [ -n "$execute" ]; then
 	docker exec -it ${container} /bin/bash
 	exit 0
 fi
-running=$(docker ps -a -q --filter "name=${container}")
-if [ -n "$running" ]; then
-	if [ -z "$quiet" ]; then
-		echo "Stopping and removing the previous session..."
-		echo ""
+
+running=$(docker inspect --format="{{ .State.Running }}" ${container} 2> /dev/null)
+if [ $? -eq 1 ]; then
+  container_doesnt_exist=1
+fi
+if [ "$running" == "true" ]; then
+	if [ -z "$delete" ]; then
+	  echo "Container $container is already running"
+	  exit 1
+	else
+		if [ -z "$quiet" ]; then
+			echo "Stopping and removing the previous session..."
+			echo ""
+		fi
+		cleanup
 	fi
-	cleanup
 fi
 
 if [ -z "$quiet" ]; then
@@ -144,17 +148,11 @@ port_arg=""
 if [ -n "$port" ]; then
 	port_arg="-p $port:6080"
 fi
-
-running=$(docker ps -a -q --filter "name=${container}")
-if [ -n "$running" ] && [ -z "$delete" ]; then
-	if [ -z "${start}" ]; then
-		array=($running)
-		start=${array[0]}
-	fi
+if [ -z "$container_doesnt_exist" ] && [ -z "$delete" ]; then
 	if [ -z "$quiet" ]; then
-		echo "Starting container $start"
+		echo "Starting container $container"
 	fi
-	docker start $start >/dev/null
+	docker start $container >/dev/null
 else
 	docker run \
 	  -d \
