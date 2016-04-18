@@ -25,7 +25,7 @@ Options:
 
   -h             Display this help and exit.
   -c             Container name to use (default ${container}).
-  -d             Delete container is already exist at starting time, and upon exit
+  -d             Delete container is already exist at starting time, and on exit
   -e             Starts bash in container if container is already running
   -i             Image name (default ${image}).
   -p             Port to expose HTTP server (default ${port}). If an empty
