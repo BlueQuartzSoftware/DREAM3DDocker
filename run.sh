@@ -25,8 +25,7 @@ Options:
 
   -h             Display this help and exit.
   -c             Container name to use (default ${container}).
-  -d             Delete container is already exist at starting time, and on exit
-  -e             Starts bash in container if container is already running
+  -d             Delete container if it already exists at starting time, and on exit
   -i             Image name (default ${image}).
   -p             Port to expose HTTP server (default ${port}). If an empty
                  string, the port is not exposed.
@@ -48,10 +47,6 @@ while [ $# -gt 0 ]; do
 			;;
 		-d)
 			delete=1
-			shift
-			;;
-		-e)
-			execute=1
 			shift
 			;;
 		-i)
@@ -94,7 +89,7 @@ if [ "${os}" != "Linux" ]; then
 		docker-machine -D create -d virtualbox --virtualbox-memory 2048 ${vm}
 	fi
 	docker-machine start ${vm} > /dev/null
-    eval $(docker-machine env $vm --shell=sh)
+	eval $(docker-machine env $vm --shell=sh)
 fi
 
 ip=$(docker-machine ip ${vm} 2> /dev/null || echo "localhost")
