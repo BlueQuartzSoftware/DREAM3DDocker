@@ -102,25 +102,24 @@ cleanup() {
 	fi
 }
 
-if [ -n "$execute" ]; then
-	docker exec -it ${container} /bin/bash
-	exit 0
-fi
-
 running=$(docker inspect --format="{{ .State.Running }}" ${container} 2> /dev/null)
 if [ $? -eq 1 ]; then
-  container_doesnt_exist=1
+	container_doesnt_exist=1
 fi
-if [ "$running" == "true" ]; then
+# If there is a container (running is "true" or "false")
+if [ -n "$running" ]; then
 	if [ -z "$delete" ]; then
-	  echo "Container $container is already running"
-	  exit 1
+		if [ "$running" == "true" ]; then
+			echo "Container $container is already running"
+			exit 1
+		fi
 	else
 		if [ -z "$quiet" ]; then
 			echo "Stopping and removing the previous session..."
 			echo ""
 		fi
 		cleanup
+		container_doesnt_exist=1
 	fi
 fi
 
@@ -143,12 +142,16 @@ port_arg=""
 if [ -n "$port" ]; then
 	port_arg="-p $port:6080"
 fi
-if [ -z "$container_doesnt_exist" ] && [ -z "$delete" ]; then
+
+if [ -z "$container_doesnt_exist" ]; then
 	if [ -z "$quiet" ]; then
 		echo "Starting container $container"
 	fi
 	docker start $container >/dev/null
 else
+	if [ -z "$quiet" ]; then
+		echo "Running a new container"
+	fi
 	docker run \
 	  -d \
 	  --name $container \
