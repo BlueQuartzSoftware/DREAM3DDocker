@@ -4,23 +4,22 @@ MAINTAINER DREAM3D Community
 RUN mkdir /usr/src/DREAM3D
 WORKDIR /usr/src/DREAM3D
 
-ENV DREAM3D_VERSION 81ab13acb74e2cf2bef1c7ddc7527668f985933a
+ENV DREAM3D_VERSION 4b787814008ab90a55c9dfb9a1244c7454211093
 RUN git clone https://github.com/dream3d/DREAM3D.git && \
   cd DREAM3D && \
   git checkout ${DREAM3D_VERSION}
 
-# Move to the upstream "develop" branch after the Qt-5.6.0-Linux branch has been merged
-ENV CMP_VERSION 52e3365a14174fb43259cba9ff4ebedf9c1ee1af
+ENV CMP_VERSION 377ab7a2abda724eca25097c3554e0f720550fd5
 RUN git clone https://github.com/thewtex/CMP.git && \
   cd CMP && \
   git checkout ${CMP_VERSION}
 
-ENV SIMPL_VERSION 94678388260b1b3bdc3bc14ae14e4c0254bcc8e8
+ENV SIMPL_VERSION e8cba4f441d51133c25e280b873bd9d502b81b8d
 RUN git clone https://github.com/BlueQuartzSoftware/SIMPL.git && \
   cd SIMPL && \
   git checkout ${SIMPL_VERSION}
 
-ENV SIMPLView_VERSION 18df48075de921934dedac36869d37af5ee3d81d
+ENV SIMPLView_VERSION 2b418ddae2ab2d0470f4667eb02d51dee97dc5ed
 RUN git clone https://github.com/BlueQuartzSoftware/SIMPLView.git && \
   cd SIMPLView && \
   git checkout ${SIMPLView_VERSION}
