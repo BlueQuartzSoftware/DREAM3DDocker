@@ -132,6 +132,7 @@ RUN wget --content-disposition https://sourceforge.net/projects/itk/files/itk/4.
     -DCMAKE_CXX_FLAGS=-std=c++11 \
     -DBUILD_SHARED_LIBS=ON \
     -DModule_ITKReview=ON \
+    -DModule_SCIFIO=ON \
     -DBUILD_TESTING=OFF \
     -DBUILD_EXAMPLES=OFF \
     -DHDF5_DIR=/usr/src/DREAM3D_SDK/prefix-Release/share/cmake \
