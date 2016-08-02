@@ -1,4 +1,4 @@
-FROM thewtex/opengl:latest
+FROM ubuntu:latest
 MAINTAINER DREAM3D Community
 
 RUN apt-get update && \
@@ -22,7 +22,6 @@ RUN apt-get update && \
   libcups2-dev \
   libdrm-dev \
   libegl1-mesa-dev \
-  libeigen3-dev \
   libevent-dev \
   libfftw3-dev \
   libflac-dev \
@@ -61,8 +60,10 @@ RUN apt-get update && \
   libxtst-dev \
   ninja-build \
   python-dev \
+  libdbus-1-dev \
   ruby \
   vim \
+  clang \
   wget
 
 WORKDIR /usr/src
@@ -83,19 +84,32 @@ RUN git clone git://cmake.org/cmake.git CMake && \
   cd .. && \
   rm -rf CMake*
 
-RUN wget http://download.qt.io/official_releases/qt/5.6/5.6.0/single/qt-everywhere-opensource-src-5.6.0.tar.gz && \
-  tar -xzf qt-everywhere-opensource-src-5.6.0.tar.gz && \
-  rm qt-everywhere-opensource-src-5.6.0.tar.gz && \
-  cd qt-everywhere-opensource-src-5.6.0 && \
+RUN wget --content-disposition http://bitbucket.org/eigen/eigen/get/3.2.9.tar.gz && \
+  tar -xzf eigen-eigen-dc6cfdf9bcec.tar.gz && \
+  mkdir eigen3-build && \
+  cd eigen3-build && \
+  cmake \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    ../eigen-eigen-dc6cfdf9bcec/ && \
+  make && \
+  make install && \
+  cd .. && rm -rf eigen*
+
+RUN wget http://download.qt.io/official_releases/qt/5.6/5.6.1/single/qt-everywhere-opensource-src-5.6.1.tar.gz && \
+  tar -xzf qt-everywhere-opensource-src-5.6.1.tar.gz && \
+  rm qt-everywhere-opensource-src-5.6.1.tar.gz && \
+  cd qt-everywhere-opensource-src-5.6.1 && \
   ./configure \
     -opensource -confirm-license \
     -prefix /usr/src/DREAM3D_SDK/prefix-Release \
-    -no-compile-examples \
+    -nomake examples \
     -icu -openssl -qt-xcb -opengl -gui -widgets \
     -release && \
   make -j$(nproc) && \
   make install && \
   cd .. && rm -rf qt-everywhere-opensource*
+
 
 RUN wget --content-disposition https://sourceforge.net/projects/qwt/files/qwt/6.1.2/qwt-6.1.2.tar.bz2/download && \
   tar -xjf qwt-6.1.2.tar.bz2 && \
@@ -142,6 +156,7 @@ RUN wget --content-disposition https://sourceforge.net/projects/itk/files/itk/4.
   ninja && \
   ninja install && \
   cd .. && rm -rf InsightToolkit*
+
 
 ADD DREAM3D_SDK.cmake /usr/src/DREAM3D_SDK/
 VOLUME /usr/src/DREAM3D_SDK
