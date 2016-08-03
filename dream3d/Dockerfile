@@ -4,7 +4,7 @@ MAINTAINER DREAM3D Community
 RUN mkdir /usr/src/DREAM3D
 WORKDIR /usr/src/DREAM3D
 
-ENV DREAM3D_VERSION 1376dcc36b52ca105072cd8fb48183d95227a4bf
+ENV DREAM3D_VERSION 5e69fc993fe84a08968ec538faa4c4f2cd07fe96
 RUN git clone https://github.com/BlueQuartzSoftware/DREAM3D.git && \
   cd DREAM3D && \
   git checkout ${DREAM3D_VERSION}
@@ -14,12 +14,12 @@ RUN git clone https://github.com/BlueQuartzSoftware/CMP.git && \
   cd CMP && \
   git checkout ${CMP_VERSION}
 
-ENV SIMPL_VERSION 4341309dfcc2219637f16bfd50faa1ad5b04b552
+ENV SIMPL_VERSION 119425792a20d77561b498c6ad62001c821b64ae
 RUN git clone https://github.com/BlueQuartzSoftware/SIMPL.git && \
   cd SIMPL && \
   git checkout ${SIMPL_VERSION}
 
-ENV SIMPLView_VERSION 3c5e4ca5c3b2bd38bb216759f414de42e0dd6546
+ENV SIMPLView_VERSION 4532c23df1fedd84d2edfe46d809b9b401c55e2f
 RUN git clone https://github.com/BlueQuartzSoftware/SIMPLView.git && \
   cd SIMPLView && \
   git checkout ${SIMPLView_VERSION}
