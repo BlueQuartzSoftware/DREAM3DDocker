@@ -63,7 +63,8 @@ RUN apt-get update && \
   python-dev \
   ruby \
   vim \
-  wget
+  wget && \
+  apt-get -y clean
 
 WORKDIR /usr/src
 RUN mkdir -p /usr/src/DREAM3D_SDK/prefix-Release
