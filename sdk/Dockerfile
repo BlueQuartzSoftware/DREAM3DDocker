@@ -69,21 +69,6 @@ RUN apt-get update && \
 WORKDIR /usr/src
 RUN mkdir -p /usr/src/DREAM3D_SDK/prefix-Release
 
-RUN git clone git://cmake.org/cmake.git CMake && \
-  cd CMake && \
-  git checkout v3.5.0 && \
-  cd .. && mkdir CMake-build && cd CMake-build && \
-  /usr/src/CMake/bootstrap \
-    --parallel=$(nproc) \
-    --prefix=/usr && \
-  make -j$(nproc) && \
-  ./bin/cmake -DCMAKE_USE_SYSTEM_CURL:BOOL=ON \
-    -DCMAKE_BUILD_TYPE:STRING=Release \
-    -DCMAKE_USE_OPENSSL:BOOL=ON . && \
-  make install && \
-  cd .. && \
-  rm -rf CMake*
-
 RUN wget http://download.qt.io/official_releases/qt/5.6/5.6.0/single/qt-everywhere-opensource-src-5.6.0.tar.gz && \
   tar -xzf qt-everywhere-opensource-src-5.6.0.tar.gz && \
   rm qt-everywhere-opensource-src-5.6.0.tar.gz && \
