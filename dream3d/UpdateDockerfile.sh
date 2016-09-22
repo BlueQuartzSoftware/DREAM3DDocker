@@ -2,6 +2,12 @@
 
 current_date=`date +%Y-%m-%d`
 git checkout -b update_DREAM3D_$current_date
+res="$?"
+if [ "$res" -ne "0" ]
+then
+  echo "branch already exist. Remove it if necessary."
+  exit -1
+fi
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
