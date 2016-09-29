@@ -111,7 +111,7 @@ RUN wget https://support.hdfgroup.org/ftp/HDF5/current/src/hdf5-1.8.17.tar.bz2 &
 
 RUN git clone https://www.itk.org/ITK.git InsightToolkit && \
   cd InsightToolkit && \
-  git checkout c83b067dd781a5d7d114ca54cacbdd507da7ec64 &&\
+  git checkout 6b76ebd3c626b9c58c1689fc41f748a378a15378 && \
   cd .. && \
   mkdir InsightToolkit-build && \
   cd InsightToolkit-build && \
