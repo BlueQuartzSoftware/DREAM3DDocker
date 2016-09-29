@@ -124,6 +124,7 @@ RUN git clone https://www.itk.org/ITK.git InsightToolkit && \
     -DBUILD_TESTING=OFF \
     -DBUILD_EXAMPLES=OFF \
     -DHDF5_DIR=/usr/src/DREAM3D_SDK/prefix-Release/share/cmake \
+    -DITK_USE_SYSTEM_HDF5:BOOL=ON \
     -DCMAKE_INSTALL_PREFIX=/usr/src/DREAM3D_SDK/prefix-Release/ \
     -G Ninja \
     ../InsightToolkit/ && \
