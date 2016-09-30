@@ -63,25 +63,11 @@ RUN apt-get update && \
   python-dev \
   ruby \
   vim \
-  wget
+  wget && \
+  apt-get -y clean
 
 WORKDIR /usr/src
 RUN mkdir -p /usr/src/DREAM3D_SDK/prefix-Release
-
-RUN git clone git://cmake.org/cmake.git CMake && \
-  cd CMake && \
-  git checkout v3.5.0 && \
-  cd .. && mkdir CMake-build && cd CMake-build && \
-  /usr/src/CMake/bootstrap \
-    --parallel=$(nproc) \
-    --prefix=/usr && \
-  make -j$(nproc) && \
-  ./bin/cmake -DCMAKE_USE_SYSTEM_CURL:BOOL=ON \
-    -DCMAKE_BUILD_TYPE:STRING=Release \
-    -DCMAKE_USE_OPENSSL:BOOL=ON . && \
-  make install && \
-  cd .. && \
-  rm -rf CMake*
 
 RUN wget http://download.qt.io/official_releases/qt/5.6/5.6.0/single/qt-everywhere-opensource-src-5.6.0.tar.gz && \
   tar -xzf qt-everywhere-opensource-src-5.6.0.tar.gz && \
@@ -107,9 +93,9 @@ RUN wget --content-disposition https://sourceforge.net/projects/qwt/files/qwt/6.
   make install && \
   cd .. && rm -rf qwt*
 
-RUN wget https://www.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8.15-patch1/src/hdf5-1.8.15-patch1.tar.bz2 && \
-  tar -xjf hdf5-1.8.15-patch1.tar.bz2 && \
-  rm hdf5-1.8.15-patch1.tar.bz2 && \
+RUN wget https://support.hdfgroup.org/ftp/HDF5/current/src/hdf5-1.8.17.tar.bz2 && \
+  tar -xjf hdf5-1.8.17.tar.bz2 && \
+  rm hdf5-1.8.17.tar.bz2 && \
   mkdir hdf5-Release-build && \
   cd hdf5-Release-build && \
   cmake \
@@ -118,14 +104,14 @@ RUN wget https://www.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8.15-patch1/src/hdf5-
     -DBUILD_SHARED_LIBS=ON \
     -DCMAKE_INSTALL_PREFIX=/usr/src/DREAM3D_SDK/prefix-Release/ \
     -G Ninja \
-    ../hdf5-1.8.15-patch1/ && \
+    ../hdf5-1.8.17/ && \
   ninja && \
   ninja install && \
   cd .. && rm -rf hdf5*
 
 RUN git clone https://www.itk.org/ITK.git InsightToolkit && \
   cd InsightToolkit && \
-  git checkout c83b067dd781a5d7d114ca54cacbdd507da7ec64 &&\
+  git checkout 6b76ebd3c626b9c58c1689fc41f748a378a15378 && \
   cd .. && \
   mkdir InsightToolkit-build && \
   cd InsightToolkit-build && \
@@ -138,6 +124,7 @@ RUN git clone https://www.itk.org/ITK.git InsightToolkit && \
     -DBUILD_TESTING=OFF \
     -DBUILD_EXAMPLES=OFF \
     -DHDF5_DIR=/usr/src/DREAM3D_SDK/prefix-Release/share/cmake \
+    -DITK_USE_SYSTEM_HDF5:BOOL=ON \
     -DCMAKE_INSTALL_PREFIX=/usr/src/DREAM3D_SDK/prefix-Release/ \
     -G Ninja \
     ../InsightToolkit/ && \
