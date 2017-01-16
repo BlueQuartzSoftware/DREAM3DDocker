@@ -121,9 +121,9 @@ RUN wget --content-disposition https://sourceforge.net/projects/qwt/files/qwt/6.
   make install && \
   cd .. && rm -rf qwt*
 
-RUN wget https://www.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8.15-patch1/src/hdf5-1.8.15-patch1.tar.bz2 && \
-  tar -xjf hdf5-1.8.15-patch1.tar.bz2 && \
-  rm hdf5-1.8.15-patch1.tar.bz2 && \
+RUN wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8.17/src/hdf5-1.8.17.tar.bz2 && \
+  tar -xjf hdf5-1.8.17.tar.bz2 && \
+  rm hdf5-1.8.17.tar.bz2 && \
   mkdir hdf5-Release-build && \
   cd hdf5-Release-build && \
   cmake \
