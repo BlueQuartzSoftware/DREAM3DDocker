@@ -132,7 +132,7 @@ RUN wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8.17/src/hdf5-1.8
     -DBUILD_SHARED_LIBS=ON \
     -DCMAKE_INSTALL_PREFIX=/usr/src/DREAM3D_SDK/prefix-Release/ \
     -G Ninja \
-    ../hdf5-1.8.15-patch1/ && \
+    ../hdf5-1.8.17/ && \
   ninja && \
   ninja install && \
   cd .. && rm -rf hdf5*
