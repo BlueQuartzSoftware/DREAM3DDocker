@@ -10,6 +10,10 @@ set(BOOST_ROOT "/usr" CACHE PATH "")
 set(SIMPL_USE_MULTITHREADED_ALGOS ON CACHE BOOL "")
 set(TBB_INSTALL_DIR "/usr" CACHE PATH "")
 set(TBB_ARCH_TYPE "intel64" CACHE STRING "")
+set(TBB_MALLOC_LIBRARY_RELEASE "/usr/lib/x86_64-linux-gnu/libtbbmalloc.so.2" CACHE
+  FILEPATH "")
+set(TBB_LIBRARY_RELEASE "/usr/lib/x86_64-linux-gnu/libtbb.so.2" CACHE
+  FILEPATH "")
 set(HDF5_INSTALL "${DREAM3D_SDK_ROOT}/prefix-${CMAKE_BUILD_TYPE}" CACHE PATH "")
 set(HDF5_DIR "${DREAM3D_SDK_ROOT}/prefix-${CMAKE_BUILD_TYPE}/share/cmake" CACHE PATH "")
 set(ITK_DIR "${DREAM3D_SDK_ROOT}/prefix-${CMAKE_BUILD_TYPE}/lib/cmake/ITK-4.10" CACHE PATH "")
