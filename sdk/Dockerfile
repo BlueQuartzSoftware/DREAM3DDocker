@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:16.04
 MAINTAINER DREAM3D Community
 
 RUN apt-get update && \
