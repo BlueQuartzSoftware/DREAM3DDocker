@@ -137,8 +137,8 @@ RUN wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8.17/src/hdf5-1.8
   ninja install && \
   cd .. && rm -rf hdf5*
 
-RUN wget --content-disposition https://sourceforge.net/projects/itk/files/itk/4.10/InsightToolkit-4.10.0.tar.xz/download && \
-  tar -xJf InsightToolkit-4.10.0.tar.xz && \
+RUN git clone https://itk.org/ITK.git InsightToolkit && \
+  cd InsightToolkit && git checkout v4.11rc02 && cd ..  && \
   mkdir InsightToolkit-build && \
   cd InsightToolkit-build && \
   cmake \
@@ -152,7 +152,7 @@ RUN wget --content-disposition https://sourceforge.net/projects/itk/files/itk/4.
     -DHDF5_DIR=/usr/src/DREAM3D_SDK/prefix-Release/share/cmake \
     -DCMAKE_INSTALL_PREFIX=/usr/src/DREAM3D_SDK/prefix-Release/ \
     -G Ninja \
-    ../InsightToolkit-4.10.0/ && \
+    ../InsightToolkit/ && \
   ninja && \
   ninja install && \
   cd .. && rm -rf InsightToolkit*
