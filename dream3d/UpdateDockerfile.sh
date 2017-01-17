@@ -1,9 +1,10 @@
 #!/bin/bash
 
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd "$DIR"
+
 current_date=`date +%Y-%m-%d`
 git checkout -b update_DREAM3D_Ubuntu_16.04_$current_date
-
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 sha=`git ls-remote https://github.com/BlueQuartzSoftware/DREAM3D.git| grep HEAD | awk '{ print $1}'`
 echo "New DREAM3D SHA: $sha"

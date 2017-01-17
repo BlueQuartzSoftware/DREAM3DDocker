@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:16.04
 MAINTAINER DREAM3D Community
 
 RUN apt-get update && \
@@ -121,9 +121,9 @@ RUN wget --content-disposition https://sourceforge.net/projects/qwt/files/qwt/6.
   make install && \
   cd .. && rm -rf qwt*
 
-RUN wget https://www.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8.15-patch1/src/hdf5-1.8.15-patch1.tar.bz2 && \
-  tar -xjf hdf5-1.8.15-patch1.tar.bz2 && \
-  rm hdf5-1.8.15-patch1.tar.bz2 && \
+RUN wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8.17/src/hdf5-1.8.17.tar.bz2 && \
+  tar -xjf hdf5-1.8.17.tar.bz2 && \
+  rm hdf5-1.8.17.tar.bz2 && \
   mkdir hdf5-Release-build && \
   cd hdf5-Release-build && \
   cmake \
@@ -132,13 +132,13 @@ RUN wget https://www.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8.15-patch1/src/hdf5-
     -DBUILD_SHARED_LIBS=ON \
     -DCMAKE_INSTALL_PREFIX=/usr/src/DREAM3D_SDK/prefix-Release/ \
     -G Ninja \
-    ../hdf5-1.8.15-patch1/ && \
+    ../hdf5-1.8.17/ && \
   ninja && \
   ninja install && \
   cd .. && rm -rf hdf5*
 
-RUN wget --content-disposition https://sourceforge.net/projects/itk/files/itk/4.10/InsightToolkit-4.10.0.tar.xz/download && \
-  tar -xJf InsightToolkit-4.10.0.tar.xz && \
+RUN git clone https://itk.org/ITK.git InsightToolkit && \
+  cd InsightToolkit && git checkout v4.11rc02 && cd ..  && \
   mkdir InsightToolkit-build && \
   cd InsightToolkit-build && \
   cmake \
@@ -152,7 +152,7 @@ RUN wget --content-disposition https://sourceforge.net/projects/itk/files/itk/4.
     -DHDF5_DIR=/usr/src/DREAM3D_SDK/prefix-Release/share/cmake \
     -DCMAKE_INSTALL_PREFIX=/usr/src/DREAM3D_SDK/prefix-Release/ \
     -G Ninja \
-    ../InsightToolkit-4.10.0/ && \
+    ../InsightToolkit/ && \
   ninja && \
   ninja install && \
   cd .. && rm -rf InsightToolkit*
