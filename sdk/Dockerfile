@@ -99,10 +99,10 @@ RUN wget https://support.hdfgroup.org/ftp/HDF5/current/src/hdf5-1.8.17.tar.bz2 &
   mkdir hdf5-Release-build && \
   cd hdf5-Release-build && \
   cmake \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_CXX_FLAGS=-std=c++11 \
-    -DBUILD_SHARED_LIBS=ON \
-    -DCMAKE_INSTALL_PREFIX=/usr/src/DREAM3D_SDK/prefix-Release/ \
+    -DCMAKE_BUILD_TYPE:STRING=Release \
+    -DCMAKE_CXX_FLAGS:STRING=-std=c++11 \
+    -DBUILD_SHARED_LIBS:BOOL=ON \
+    -DCMAKE_INSTALL_PREFIX:FILEPATH=/usr/src/DREAM3D_SDK/prefix-Release/ \
     -G Ninja \
     ../hdf5-1.8.17/ && \
   ninja && \
@@ -111,22 +111,22 @@ RUN wget https://support.hdfgroup.org/ftp/HDF5/current/src/hdf5-1.8.17.tar.bz2 &
 
 RUN git clone https://www.itk.org/ITK.git InsightToolkit && \
   cd InsightToolkit && \
-  git checkout 6b76ebd3c626b9c58c1689fc41f748a378a15378 && \
+  git checkout 32754e2be72c5aca95acce8bd3c53dcab8fc44ad && \
   cd .. && \
   mkdir InsightToolkit-build && \
   cd InsightToolkit-build && \
   cmake \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_CXX_FLAGS=-std=c++11 \
-    -DBUILD_SHARED_LIBS=ON \
-    -DModule_ITKReview=ON \
-    -DModule_SCIFIO=ON \
-    -DBUILD_TESTING=OFF \
-    -DBUILD_EXAMPLES=OFF \
-    -DITK_USE_SYSTEM_HDF5=ON \
-    -DHDF5_DIR=/usr/src/DREAM3D_SDK/prefix-Release/share/cmake \
+    -DCMAKE_BUILD_TYPE:STRING=Release \
+    -DCMAKE_CXX_FLAGS:STRING=-std=c++11 \
+    -DBUILD_SHARED_LIBS:BOOL=ON \
+    -DModule_ITKReview:BOOL=ON \
+    -DModule_SCIFIO:BOOL=ON \
+    -DBUILD_TESTING:BOOL=OFF \
+    -DBUILD_EXAMPLES:BOOL=OFF \
     -DITK_USE_SYSTEM_HDF5:BOOL=ON \
-    -DCMAKE_INSTALL_PREFIX=/usr/src/DREAM3D_SDK/prefix-Release/ \
+    -DHDF5_DIR:FILEPATH=/usr/src/DREAM3D_SDK/prefix-Release/share/cmake \
+    -DITK_USE_SYSTEM_HDF5:BOOL=ON \
+    -DCMAKE_INSTALL_PREFIX:FILEPATH=/usr/src/DREAM3D_SDK/prefix-Release/ \
     -G Ninja \
     ../InsightToolkit/ && \
   ninja && \
