@@ -69,10 +69,10 @@ RUN apt-get update && \
 WORKDIR /usr/src
 RUN mkdir -p /usr/src/DREAM3D_SDK/prefix-Release
 
-RUN wget http://download.qt.io/official_releases/qt/5.6/5.6.0/single/qt-everywhere-opensource-src-5.6.0.tar.gz && \
-  tar -xzf qt-everywhere-opensource-src-5.6.0.tar.gz && \
-  rm qt-everywhere-opensource-src-5.6.0.tar.gz && \
-  cd qt-everywhere-opensource-src-5.6.0 && \
+RUN wget http://download.qt.io/official_releases/qt/5.6/5.6.1/single/qt-everywhere-opensource-src-5.6.1.tar.gz && \
+  tar -xzf qt-everywhere-opensource-src-5.6.1.tar.gz && \
+  rm qt-everywhere-opensource-src-5.6.1.tar.gz && \
+  cd qt-everywhere-opensource-src-5.6.1 && \
   ./configure \
     -opensource -confirm-license \
     -prefix /usr/src/DREAM3D_SDK/prefix-Release \
