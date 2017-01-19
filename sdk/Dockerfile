@@ -130,8 +130,7 @@ RUN git clone https://www.itk.org/ITK.git InsightToolkit && \
     -G Ninja \
     ../InsightToolkit/ && \
   ninja && \
-  ninja install && \
-  cd .. && rm -rf InsightToolkit*
+  cd ..
 
 ADD DREAM3D_SDK.cmake /usr/src/DREAM3D_SDK/
 VOLUME /usr/src/DREAM3D_SDK
