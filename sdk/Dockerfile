@@ -66,8 +66,8 @@ RUN apt-get update && \
   wget && \
   apt-get -y clean
 
-WORKDIR /usr/src
 RUN mkdir -p /usr/src/DREAM3D_SDK/prefix-Release
+WORKDIR /usr/src/DREAM3D_SDK
 
 RUN wget http://download.qt.io/official_releases/qt/5.6/5.6.1/single/qt-everywhere-opensource-src-5.6.1.tar.gz && \
   tar -xzf qt-everywhere-opensource-src-5.6.1.tar.gz && \
