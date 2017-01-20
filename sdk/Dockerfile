@@ -66,13 +66,13 @@ RUN apt-get update && \
   wget && \
   apt-get -y clean
 
-WORKDIR /usr/src
 RUN mkdir -p /usr/src/DREAM3D_SDK/prefix-Release
+WORKDIR /usr/src/DREAM3D_SDK
 
-RUN wget http://download.qt.io/official_releases/qt/5.6/5.6.0/single/qt-everywhere-opensource-src-5.6.0.tar.gz && \
-  tar -xzf qt-everywhere-opensource-src-5.6.0.tar.gz && \
-  rm qt-everywhere-opensource-src-5.6.0.tar.gz && \
-  cd qt-everywhere-opensource-src-5.6.0 && \
+RUN wget http://download.qt.io/official_releases/qt/5.6/5.6.1/single/qt-everywhere-opensource-src-5.6.1.tar.gz && \
+  tar -xzf qt-everywhere-opensource-src-5.6.1.tar.gz && \
+  rm qt-everywhere-opensource-src-5.6.1.tar.gz && \
+  cd qt-everywhere-opensource-src-5.6.1 && \
   ./configure \
     -opensource -confirm-license \
     -prefix /usr/src/DREAM3D_SDK/prefix-Release \
@@ -93,7 +93,7 @@ RUN wget --content-disposition https://sourceforge.net/projects/qwt/files/qwt/6.
   make install && \
   cd .. && rm -rf qwt*
 
-RUN wget https://support.hdfgroup.org/ftp/HDF5/current/src/hdf5-1.8.17.tar.bz2 && \
+RUN wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8.17/src/hdf5-1.8.17.tar.bz2 && \
   tar -xjf hdf5-1.8.17.tar.bz2 && \
   rm hdf5-1.8.17.tar.bz2 && \
   mkdir hdf5-Release-build && \
@@ -109,7 +109,7 @@ RUN wget https://support.hdfgroup.org/ftp/HDF5/current/src/hdf5-1.8.17.tar.bz2 &
   ninja install && \
   cd .. && rm -rf hdf5*
 
-RUN git clone https://www.itk.org/ITK.git InsightToolkit && \
+RUN git clone https://www.github.com/InsightSoftwareConsortium/ITK.git InsightToolkit && \
   cd InsightToolkit && \
   git checkout 32754e2be72c5aca95acce8bd3c53dcab8fc44ad && \
   cd .. && \
