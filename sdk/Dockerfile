@@ -109,7 +109,7 @@ RUN wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8.17/src/hdf5-1.8
   ninja install && \
   cd .. && rm -rf hdf5*
 
-RUN git clone https://www.itk.org/ITK.git InsightToolkit && \
+RUN git clone https://www.github.com/InsightSoftwareConsortium/ITK.git InsightToolkit && \
   cd InsightToolkit && \
   git checkout 32754e2be72c5aca95acce8bd3c53dcab8fc44ad && \
   cd .. && \
