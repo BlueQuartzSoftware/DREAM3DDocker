@@ -25,6 +25,7 @@ Options:
 
   -h             Display this help and exit.
   -c             Container name to use (default ${container}).
+  -d             Delete container if it already exists at starting time, and on exit
   -i             Image name (default ${image}).
   -p             Port to expose HTTP server (default ${port}). If an empty
                  string, the port is not exposed.
@@ -42,6 +43,10 @@ while [ $# -gt 0 ]; do
 			;;
 		-c)
 			container=$2
+			shift
+			;;
+		-d)
+			delete=1
 			shift
 			;;
 		-i)
@@ -84,7 +89,7 @@ if [ "${os}" != "Linux" ]; then
 		docker-machine -D create -d virtualbox --virtualbox-memory 2048 ${vm}
 	fi
 	docker-machine start ${vm} > /dev/null
-    eval $(docker-machine env $vm --shell=sh)
+	eval $(docker-machine env $vm --shell=sh)
 fi
 
 ip=$(docker-machine ip ${vm} 2> /dev/null || echo "localhost")
@@ -92,16 +97,30 @@ url="http://${ip}:$port"
 
 cleanup() {
 	docker stop $container >/dev/null
-	docker rm $container >/dev/null
+	if [ -n "$delete" ]; then
+		docker rm $container >/dev/null
+	fi
 }
 
-running=$(docker ps -a -q --filter "name=${container}")
+running=$(docker inspect --format="{{ .State.Running }}" ${container} 2> /dev/null)
+if [ $? -eq 1 ]; then
+	container_doesnt_exist=1
+fi
+# If there is a container (running is "true" or "false")
 if [ -n "$running" ]; then
-	if [ -z "$quiet" ]; then
-		echo "Stopping and removing the previous session..."
-		echo ""
+	if [ -z "$delete" ]; then
+		if [ "$running" == "true" ]; then
+			echo "Container $container is already running"
+			exit 1
+		fi
+	else
+		if [ -z "$quiet" ]; then
+			echo "Stopping and removing the previous session..."
+			echo ""
+		fi
+		cleanup
+		container_doesnt_exist=1
 	fi
-	cleanup
 fi
 
 if [ -z "$quiet" ]; then
@@ -124,13 +143,23 @@ if [ -n "$port" ]; then
 	port_arg="-p $port:6080"
 fi
 
-docker run \
-  -d \
-  --name $container \
-  ${mount_local} \
-  $port_arg \
-  $extra_run_args \
-  $image >/dev/null
+if [ -z "$container_doesnt_exist" ]; then
+	if [ -z "$quiet" ]; then
+		echo "Starting container $container"
+	fi
+	docker start $container >/dev/null
+else
+	if [ -z "$quiet" ]; then
+		echo "Running a new container"
+	fi
+	docker run \
+	  -d \
+	  --name $container \
+	  ${mount_local} \
+	  $port_arg \
+	  $extra_run_args \
+	  $image >/dev/null
+fi
 
 print_app_output() {
 	docker cp $container:/var/log/supervisor/graphical-app-launcher.log - \
