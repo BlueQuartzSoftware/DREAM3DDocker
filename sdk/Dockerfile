@@ -132,5 +132,7 @@ RUN git clone https://www.github.com/InsightSoftwareConsortium/ITK.git InsightTo
   ninja && \
   cd ..
 
+RUN chmod +x /usr/src/DREAM3D_SDK/prefix-Release/lib/jre/jre/bin/java
+
 ADD DREAM3D_SDK.cmake /usr/src/DREAM3D_SDK/
 VOLUME /usr/src/DREAM3D_SDK

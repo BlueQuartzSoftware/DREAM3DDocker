@@ -25,6 +25,8 @@ RUN git clone https://github.com/BlueQuartzSoftware/SIMPLView.git && \
   git checkout ${SIMPLView_VERSION}
 
 ENV CXXFLAGS="-std=c++11"
+ENV SCIFIO_PATH=/usr/src/DREAM3D_SDK/prefix-Release/lib/jars/
+ENV JAVA_HOME=/usr/src/DREAM3D_SDK/prefix-Release/lib/jre/jre/
 
 RUN mkdir DREAM3D-build-Release && \
   cd DREAM3D-build-Release && \
