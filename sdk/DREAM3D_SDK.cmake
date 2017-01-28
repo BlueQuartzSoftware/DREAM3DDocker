@@ -1,5 +1,5 @@
 set(CMAKE_CXX_FLAGS "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas -std=c++11")
-set(CMAKE_BUILD_TYPE Release CACHE STRING "CMake build type")
+set(CMAKE_BUILD_TYPE MinSizeRel CACHE STRING "CMake build type")
 set(BUILD_SHARED_LIBS ON CACHE BOOL "Build shared libraries")
 set(DREAM3D_SDK_ROOT "/usr/src/DREAM3D_SDK")
 set(DREAM3D_DATA_DIR "/usr/src/DREAM3D_Data/" CACHE PATH "DREAM3D Data")
