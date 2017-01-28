@@ -26,16 +26,16 @@ RUN git clone https://github.com/BlueQuartzSoftware/SIMPLView.git && \
 
 ENV CXXFLAGS="-std=c++11"
 
-RUN mkdir DREAM3D-build-Release && \
-  cd DREAM3D-build-Release && \
+RUN mkdir DREAM3D-build-MinSizeRel && \
+  cd DREAM3D-build-MinSizeRel && \
   cmake -C /usr/src/DREAM3D_SDK/DREAM3D_SDK.cmake \
     -G Ninja \
-    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_BUILD_TYPE=MinSizeRel \
     ../DREAM3D && \
   ninja
 
 VOLUME /usr/src/DREAM3D
 
 # The app to run in the x11vnc server
-ENV APP /usr/src/DREAM3D/DREAM3D-build-Release/Bin/DREAM3D
+ENV APP /usr/src/DREAM3D/DREAM3D-build-MinSizeRel/Bin/DREAM3D
 
